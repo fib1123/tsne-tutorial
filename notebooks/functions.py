@@ -67,6 +67,27 @@ def pointCluster(numPoints):
 	colors2 = ['g' for x in range(numPoints)]
 	return np.concatenate([L1, L2]), colors1 + colors2
 
+def pointTriCluster(numPoints):
+	colors1 = []
+	colors2 = []
+	colors3 = []
+	L1 = genCluster([-10, -10], 5, numPoints, 2)
+	colors1 = ['b' for x in range(numPoints)]
+	L2 = genCluster([10, 10], 5, numPoints, 2)
+	colors2 = ['g' for x in range(numPoints)]
+	L3 = genCluster([0, 0], 5, numPoints, 2)
+	colors3 = ['y' for x in range(numPoints)]
+	return np.concatenate([np.concatenate([L1, L2]), L3]), colors1 + colors2 + colors3
+
+def pointClusterMulti(numPoints):
+	colors1 = []
+	colors2 = []
+	L1 = genCluster(np.full(50, 50), 2, numPoints, 50)
+	colors1 = ['b' for x in range(numPoints)]
+	L2 = genCluster(np.full(50, 50), 50, 3*numPoints, 50)
+	colors2 = ['g' for x in range(3*numPoints)]
+	return np.concatenate([L1, L2]), colors1 + colors2
+
 def plot2D(X, colors):
     fig = plt.figure()
     ax = fig.add_subplot(212)
@@ -75,11 +96,25 @@ def plot2D(X, colors):
     plt.xticks([]), plt.yticks([])
     plt.show()
 
+def draw_faces(faces, rows=4, cols=16):
+    base_size = 64
+
+    img = np.zeros(((base_size + 2)  * rows, (base_size + 2) * cols))
+
+    for i in range(rows):
+        ix = base_size * i + 1
+        for j in range(cols):
+            iy = base_size * j + 1
+            img[ix:ix + base_size, iy:iy + base_size] = faces.images[i * cols + j]
+
+    plt.imshow(img, cmap=plt.cm.binary)
+    plt.show()
+
 def genCluster(source, deviationFromPoint, numberOfPoints, dim):
 	L = np.zeros((numberOfPoints, dim)) 
 
 	for i in range(numberOfPoints):
-		newCoords = [source[m] + random.random() * deviationFromPoint for m in range(dim)]
+		newCoords = [source[m] + 2*(random.random()-0.5) * deviationFromPoint for m in range(dim)]
 		for y in range(dim):
 			L[i][y] = newCoords[y]
 	return L
