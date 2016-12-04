@@ -82,10 +82,10 @@ def pointTriCluster(numPoints):
 def pointClusterMulti(numPoints):
 	colors1 = []
 	colors2 = []
-	L1 = genCluster(np.full(50, 50), 2, numPoints, 50)
+	L1 = genCluster(np.full(50.0, 50.0), 2, numPoints, 50)
 	colors1 = ['b' for x in range(numPoints)]
-	L2 = genCluster(np.full(50, 50), 50, 3*numPoints, 50)
-	colors2 = ['g' for x in range(3*numPoints)]
+	L2 = genCluster(np.full(50.0, 50.0), 50, numPoints, 50)
+	colors2 = ['g' for x in range(numPoints)]
 	return np.concatenate([L1, L2]), colors1 + colors2
 
 def plot2D(X, colors):
@@ -118,3 +118,4 @@ def genCluster(source, deviationFromPoint, numberOfPoints, dim):
 		for y in range(dim):
 			L[i][y] = newCoords[y]
 	return L
+
