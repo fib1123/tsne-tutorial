@@ -58,37 +58,37 @@ def plot_faces(X, faces, title=None):
 		plt.title(title)
 	plt.show()
 
-def pointCluster(numPoints):
+def point_cluster(numPoints):
 	colors1 = []
 	colors2 = []
-	L1 = genCluster([-10, -10], 5, numPoints, 2)
+	L1 = gen_cluster([-10, -10], 5, numPoints, 2)
 	colors1 = ['b' for x in range(numPoints)]
-	L2 = genCluster([10, 10], 5, numPoints, 2)
+	L2 = gen_cluster([10, 10], 5, numPoints, 2)
 	colors2 = ['g' for x in range(numPoints)]
 	return np.concatenate([L1, L2]), colors1 + colors2
 
-def pointTriCluster(numPoints):
+def point_tri_cluster(numPoints):
 	colors1 = []
 	colors2 = []
 	colors3 = []
-	L1 = genCluster([-10, -10], 5, numPoints, 2)
+	L1 = gen_cluster([-10, -10], 5, numPoints, 2)
 	colors1 = ['b' for x in range(numPoints)]
-	L2 = genCluster([10, 10], 5, numPoints, 2)
+	L2 = gen_cluster([10, 10], 5, numPoints, 2)
 	colors2 = ['g' for x in range(numPoints)]
-	L3 = genCluster([0, 0], 5, numPoints, 2)
+	L3 = gen_cluster([0, 0], 5, numPoints, 2)
 	colors3 = ['y' for x in range(numPoints)]
 	return np.concatenate([np.concatenate([L1, L2]), L3]), colors1 + colors2 + colors3
 
-def pointClusterMulti(numPoints):
+def point_cluster_multi(numPoints):
 	colors1 = []
 	colors2 = []
-	L1 = genCluster(np.full(50.0, 50.0), 2, numPoints, 50)
+	L1 = gen_cluster(np.full(50.0, 50.0), 2, numPoints, 50)
 	colors1 = ['b' for x in range(numPoints)]
-	L2 = genCluster(np.full(50.0, 50.0), 50, numPoints, 50)
+	L2 = gen_cluster(np.full(50.0, 50.0), 50, numPoints, 50)
 	colors2 = ['g' for x in range(numPoints)]
 	return np.concatenate([L1, L2]), colors1 + colors2
 
-def plot2D(X, colors):
+def plot_2D(X, colors):
     fig = plt.figure()
     ax = fig.add_subplot(212)
     ax.scatter(X[:, 0], X[:, 1], c = colors, cmap=plt.cm.Spectral)
@@ -110,7 +110,14 @@ def draw_faces(faces, rows=4, cols=16):
     plt.imshow(img, cmap=plt.cm.binary)
     plt.show()
 
-def genCluster(source, deviationFromPoint, numberOfPoints, dim):
+def pairwise_distances(points):
+    results = []
+    for point in points:
+        res = [ np.linalg.norm(point - other) for other in points ]
+        results.append(res)
+    return np.array(results)
+
+def gen_cluster(source, deviationFromPoint, numberOfPoints, dim):
 	L = np.zeros((numberOfPoints, dim)) 
 
 	for i in range(numberOfPoints):
